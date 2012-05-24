@@ -1,10 +1,13 @@
-require './keeperchallenge/player'
-require './keeperchallenge/score'
-require './keeperchallenge/activity'
-require './keeperchallenge/database'
+#require './keeperchallenge/player'
+#require './keeperchallenge/score'
+#require './keeperchallenge/activity'
+#require './keeperchallenge/database'
 #TODO
 #import activity and players from text file ?
-
+require '../lib/keeperchallenge/player'
+require '../lib/keeperchallenge/score'
+require '../lib/keeperchallenge/activity'
+require '../lib/keeperchallenge/database'
 
 # will handle user input - will to quit the program, input from the console
 class UserInput
@@ -149,6 +152,3 @@ class Main
 
   
 end
-
-challenge = Main.new()
-challenge.launch

@@ -4,17 +4,17 @@ require "keeperchallenge/version"
 
 Gem::Specification.new do |s|
   s.name            = "KeeperChallenge"
-  s.version         = KeeperChallenge::VERSION
+  s.version         = '0.0.1'
   s.authors         = ["Benjamin Combe"]
   s.email           = ["benjamin.combe@gmail.com"]
-  s.homepage        = ""
-  s.summary         = %q{TODO: Write a good gem summary}
-  s.description     = %q{TODO: Write a gem description}
+  s.homepage        = "http://arthion.fr"
+  s.summary         = %q{KeeperChallenge is a prototype for running sports contests between friends}
+  s.description     = %q{KeeperChallenge is a console based application that will allow the user to add participants, add activities and then determine the winner of the contest.}
   
   s.rubyforge_project = "KeeperChallenge"
   
-  s.files           = 'git ls-files'.split("\n")
-  s.test_files      = 'git ls-files --{test,spec,features}/*'.split("\n")
-  s.executables     = 'git ls-files -- bin/*'.split("\n").map{|f| File.basename(f)}
+  s.files           = `git ls-files`.split("\n")
+  s.test_files      = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables     = `git ls-files -- bin/*`.split("\n").map{|f| File.basename(f)}
   s.require_paths   = ["lib"]
 end
