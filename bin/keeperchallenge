@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-
-require '../lib/keeperchallenge'
+require File.dirname(__FILE__) + '/../lib/keeperchallenge'
 
 challenge = Main.new()
 challenge.launch
