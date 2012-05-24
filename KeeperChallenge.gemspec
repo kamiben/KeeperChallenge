@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors         = ["Benjamin Combe"]
   s.email           = ["benjamin.combe@gmail.com"]
   s.homepage        = "http://arthion.fr"
-  s.summary         = %q{KeeperChallenge is a prototype for running sports contests between friends}
+  s.summary         = %q{KeeperChallenge is a prototype scoreboard for running sports contests between friends}
   s.description     = %q{KeeperChallenge is a console based application that will allow the user to add participants, add activities and then determine the winner of the contest.}
   
   s.rubyforge_project = "KeeperChallenge"
