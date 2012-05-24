@@ -1,9 +1,3 @@
-#require './keeperchallenge/player'
-#require './keeperchallenge/score'
-#require './keeperchallenge/activity'
-#require './keeperchallenge/database'
-#TODO
-#import activity and players from text file ?
 require File.dirname(__FILE__) +'/keeperchallenge/player'
 require File.dirname(__FILE__) +'/keeperchallenge/score'
 require File.dirname(__FILE__) +'/keeperchallenge/activity'

@@ -4,10 +4,10 @@ require "keeperchallenge/version"
 
 Gem::Specification.new do |s|
   s.name            = "KeeperChallenge"
-  s.version         = '0.0.2'
+  s.version         = '0.0.3'
   s.authors         = ["Benjamin Combe"]
   s.email           = ["benjamin.combe@gmail.com"]
-  s.homepage        = "http://arthion.fr"
+  s.homepage        = "https://github.com/kamiben/KeeperChallenge"
   s.summary         = %q{KeeperChallenge is a prototype scoreboard for running sports contests between friends}
   s.description     = %q{KeeperChallenge is a console based application that will allow the user to add participants, add activities and then determine the winner of the contest.}
   
