@@ -87,10 +87,9 @@ class Display
   end
   
   def display_scores(players)
+    puts "Scores :"
     players.each do |player|
-      print player.name
-      print player.score
-      puts
+      puts "#{player.name} : #{player.score}"
     end
   end
   
@@ -105,11 +104,14 @@ class Main
     # load activities
     @players = []
     @activities_type = ["velo", "course" , "marche",  "natation"]
+   #setup_test_users
+
   end
   def launch
     input = UserInput.new()
     screen = Display.new(input)
-    
+    db = FileDatabase.new()
+    db.load(@players)
     screen.hello
     while !input.exit
       action = screen.menu
@@ -130,8 +132,22 @@ class Main
           score.compute(@activities_type)
           screen.display_scores(@players)
       end
+      db.save(@players)
     end
   end
+  
+  def setup_test_users
+    @players.push(Player.new("Ben"))
+    @players.push(Player.new("Claire"))
+    
+    @players[0].add_activity("velo", 15, 15, 15)
+    @players[0].add_activity("course", 10, 10, 10)
+    @players[0].add_activity("course", 20, 20, 20)
+    @players[1].add_activity("velo", 12, 12, 12)
+    @players[1].add_activity("natation", 30, 20, 10)
+  end
+
+  
 end
 
 challenge = Main.new()

@@ -47,7 +47,7 @@ class Score
     
     #Incrémentation du compteur pour le nombre d'activités différentes effectuées
     @players.each do |player|
-      puts "Adding numbers of activity = #{player.count_activity_type}"
+      puts "Adding numbers of activity for #{player.name} = #{player.count_activity_type}"
       player.score += player.count_activity_type
     end
     
