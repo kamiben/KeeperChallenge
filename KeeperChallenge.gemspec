@@ -4,7 +4,7 @@ require "keeperchallenge/version"
 
 Gem::Specification.new do |s|
   s.name            = "KeeperChallenge"
-  s.version         = '0.0.1'
+  s.version         = '0.0.2'
   s.authors         = ["Benjamin Combe"]
   s.email           = ["benjamin.combe@gmail.com"]
   s.homepage        = "http://arthion.fr"

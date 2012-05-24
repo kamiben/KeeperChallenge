@@ -26,6 +26,7 @@ class FileDatabase
           players[index].add_activity(activity[0], activity[1], activity[2], activity[3])
         end
         index += 1
+        content.close
       end
     end
   end
@@ -49,7 +50,9 @@ class FileDatabase
   #Will remove all player files from the db directory
   def clear
     Dir.foreach(@folder_path) do |file|
-      File.delete("#{@folder_path}#{file}")
+      unless (file =='.' || file == '..')
+        File.delete("#{@folder_path}#{file}")
+      end
     end
   end
 

@@ -39,13 +39,15 @@ class Display
     puts "1. Add activity"
     puts "2. Add player"
     puts "3. Display scoreboard"
-    puts "4. Exit"
+    puts "4. Clear player database"
+    puts "5. Exit"
     choice = @input.get_input
     case choice.to_i
       when 1 then return :add_activity
       when 2 then return :add_player
       when 3 then return :launch_scoreboard
-      when 4 then @input.exit = true
+      when 4 then return :clean_database
+      when 5 then @input.exit = true
     end
   end
 
@@ -134,6 +136,10 @@ class Main
           score = Score.new(@players)
           score.compute(@activities_type)
           screen.display_scores(@players)
+        when :clean_database then
+          db.clear
+          @players.clear
+          
       end
       db.save(@players)
     end
