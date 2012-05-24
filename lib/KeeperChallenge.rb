@@ -4,10 +4,10 @@
 #require './keeperchallenge/database'
 #TODO
 #import activity and players from text file ?
-require File.dirname(__FILE__) +'../lib/keeperchallenge/player'
-require File.dirname(__FILE__) +'../lib/keeperchallenge/score'
-require File.dirname(__FILE__) +'../lib/keeperchallenge/activity'
-require File.dirname(__FILE__) +'../lib/keeperchallenge/database'
+require File.dirname(__FILE__) +'/keeperchallenge/player'
+require File.dirname(__FILE__) +'/keeperchallenge/score'
+require File.dirname(__FILE__) +'/keeperchallenge/activity'
+require File.dirname(__FILE__) +'/keeperchallenge/database'
 
 # will handle user input - will to quit the program, input from the console
 class UserInput
