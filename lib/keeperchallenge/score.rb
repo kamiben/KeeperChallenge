@@ -14,7 +14,7 @@ class Score
       total_time = {}
       total_cal = {}
       total_km = {}
-      @players.each do |player|
+      @players.each do |key,player|
         total_time[player.name] =0
         total_cal[player.name] =0
         total_km[player.name] =0   
@@ -27,7 +27,7 @@ class Score
       end
       
       #détermine le meilleur de chaque discipline
-      @players.each do |player|
+      @players.each do |key,player|
         if player.name == find_best_score(total_time)
           puts "Best total time in #{activity} for #{player.name}, adding 3 points"
           player.score += 3
@@ -46,7 +46,7 @@ class Score
     end
     
     #Incrémentation du compteur pour le nombre d'activités différentes effectuées
-    @players.each do |player|
+    @players.each do |key,player|
       puts "Adding numbers of activity for #{player.name} = #{player.count_activity_type}"
       player.score += player.count_activity_type
     end
@@ -68,7 +68,7 @@ class Score
   
   
   def reset_player_scores()
-    @players.each do |player|
+    @players.each do |key,player|
       player.score = 0
     end
   end

@@ -12,20 +12,20 @@ class FileDatabase
   
   #will load all files from db directory and load them as player and activities
   def load(players)
-    index = 0
+
     # read all files in database
     
     Dir.foreach(@folder_path) do |file|
       if !(file =='.' || file == '..')
         # create an object per file (=player)
-        players.push(Player.new(file))
+        players.update({file => Player.new(file)})
         # populate with activities
         content = File.open("#{@folder_path}#{file}")
         content.each_line do |line|
           activity = line.split(' ')
-          players[index].add_activity(activity[0], activity[1], activity[2], activity[3])
+          players[file].add_activity(activity[0], activity[1], activity[2], activity[3])
         end
-        index += 1
+
         content.close
       end
     end
@@ -34,7 +34,7 @@ class FileDatabase
   #will save player to static files in db directory
   def save(players)
     # create a file per player
-    players.each do |player|
+    players.each do |key,player|
       file_name = "#{@folder_path}#{player.name}"
       player_file = File.open(file_name,'w')
       # in this file : one activity per line, each attribute separated by a space 

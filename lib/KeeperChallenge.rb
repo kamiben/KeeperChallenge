@@ -51,11 +51,11 @@ class Display
     puts "Please select your player"
     i=1
     if !players.empty?
-      players.each do |player|
-        puts "#{i}. #{player.name}"
+      players.each do |key,player|
+        puts "#{player.name}"
       end
       choice = @input.get_input
-      return choice.to_i-1
+      return choice
     else
       puts "There are no players in the database"
       return nil
@@ -92,7 +92,7 @@ class Display
   # Will print the scores
   def display_scores(players)
     puts "Scores :"
-    players.each do |player|
+    players.each do |key,player|
       puts "#{player.name} : #{player.score}"
     end
   end
@@ -106,9 +106,9 @@ class Main
   def initialize
     # load players
     # load activities
-    @players = []
+    @players = {}
     @activities_type = ["velo", "course" , "marche",  "natation"]
-   #setup_test_users
+   setup_test_users
 
   end
   def launch
@@ -129,7 +129,7 @@ class Main
         when :add_player then 
           name = screen.add_player
           new_player = Player.new(name)
-          @players.push(new_player)
+          @players.update(name => new_player)
         when :launch_scoreboard then 
           score = Score.new(@players)
           score.compute(@activities_type)
@@ -144,14 +144,14 @@ class Main
   end
   
   def setup_test_users
-    @players.push(Player.new("Ben"))
-    @players.push(Player.new("Claire"))
+    @players.update({"Ben" => Player.new("Ben")})
+    @players.update({"Claire" => Player.new("Claire")})
     
-    @players[0].add_activity("velo", 15, 15, 15)
-    @players[0].add_activity("course", 10, 10, 10)
-    @players[0].add_activity("course", 20, 20, 20)
-    @players[1].add_activity("velo", 12, 12, 12)
-    @players[1].add_activity("natation", 30, 20, 10)
+    @players["Ben"].add_activity("velo", 15, 15, 15)
+    @players["Ben"].add_activity("course", 10, 10, 10)
+    @players["Claire"].add_activity("course", 20, 20, 20)
+    @players["Claire"].add_activity("velo", 12, 12, 12)
+    @players["Claire"].add_activity("natation", 30, 20, 10)
   end
 
   
