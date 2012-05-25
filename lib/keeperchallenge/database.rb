@@ -1,9 +1,10 @@
 class FileDatabase
-  
+  attr_reader :folder_path
   # will create the db folder if not present on system
   def initialize
     #if db folder does not exist, create it
     @folder_path = File.dirname(__FILE__) + "/db/"
+    puts @folder_path
     unless File.directory?(@folder_path)
       Dir.mkdir(@folder_path)
     end

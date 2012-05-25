@@ -19,7 +19,7 @@ class Score
         total_cal[player.name] =0
         total_km[player.name] =0   
         
-        player.activites_taken(activity).each do |player_activity|
+        player.activities_taken(activity).each do |player_activity|
           total_time[player.name]  += player_activity.time.to_i
           total_cal[player.name]  += player_activity.cal.to_i
           total_km[player.name]  += player_activity.km.to_i
@@ -53,6 +53,7 @@ class Score
     
   end
   
+  # returns the player name of the best total from the given hash. 
   def find_best_score(total_per_player)
     best_score = 0
     winner = ''
@@ -66,7 +67,7 @@ class Score
     return winner
   end
   
-  
+  # Reset all scores to prevent abuse from the save file
   def reset_player_scores()
     @players.each do |key,player|
       player.score = 0

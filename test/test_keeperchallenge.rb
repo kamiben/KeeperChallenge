@@ -42,7 +42,7 @@ class MyUnitTest < Test::Unit::TestCase
     #Only accessors here ! Nothing to test
   end
   
-  def test_player
+  def test_add_activity
     player = Player.new("Ben")
     
     # test new activity
@@ -53,14 +53,109 @@ class MyUnitTest < Test::Unit::TestCase
     assert_equal(player.activities[0].cal,1)
     assert_equal(player.activities[0].time,1)
     
-    # test list_by_type
+  end 
+  
+  def test_list_by_type
+    player = Player.new("Ben")
+    player.add_activity("Velo", 1, 1, 1)
+
     assert_equal(player.activities_taken("Velo"),[player.activities[0]])
     
-    # count_activities_type
+  end
+  
+  def test_count_activities_type
+    player = Player.new("Ben")
+    player.add_activity("Velo", 1, 1, 1)
+    
     assert_equal(player.count_activity_type,1)
     
   end
 
+  def test_score
+    setup_test_users
+    @activities_type = ["velo", "course" , "marche",  "natation"]
+    score = Score.new(@players)
+    
+    score.compute(@activities_type)
+    assert_equal(@players["Ben"].score,11)
+    assert_equal(@players["Claire"].score,21)
+    
+    @players.clear
+  end
+  
+  def test_find_best_score
 
+    score = Score.new(@players)
+    total_time = {}
+    total_time['Ben'] = 10
+    total_time['Claire'] = 5
+    assert_equal(score.find_best_score(total_time),'Ben')
+
+  end
+  
+  def reset_player_score
+    player = Player.new("Ben")
+    player.score = 10
+    players=[player]
+    assert_equal(player.score,10)
+    score = Score.new(players)
+    score.reset_player_score
+    assert_equal(player.score,0)
+    
+  end
+  
+  
+  def setup_test_users
+    @players ={}
+    @players.update({"Ben" => Player.new("Ben")})
+    @players.update({"Claire" => Player.new("Claire")})
+    
+    @players["Ben"].add_activity("velo", 15, 15, 15)
+    @players["Ben"].add_activity("course", 10, 10, 10)
+    @players["Claire"].add_activity("course", 20, 20, 20)
+    @players["Claire"].add_activity("velo", 12, 12, 12)
+    @players["Claire"].add_activity("natation", 30, 20, 10)
+  end
+  
+  
+  def test_load
+      players = {}
+      @folder_path = "../lib/keeperchallenge/db/"
+      puts @folder_path
+      player_file = File.open("#{@folder_path}Ben",'w')
+      activity_string = "Velo 1 1 1\n"
+      player_file.write(activity_string)
+      player_file.close
+      
+      db = FileDatabase.new
+      
+      db.load(players)
+      
+      assert_equal(players["Ben"].name,"Ben")
+      assert_equal(players["Ben"].activities[0].type,"Velo")
+      
+      db.clear
+      
+  end
+  
+  
+  def test_save
+    setup_test_users
+    db = FileDatabase.new     
+    db.save(@players)    
+    index = 0
+    Dir.foreach(db.folder_path) do |file|
+      if !(file =='.' || file == '..')
+        if index == 0
+          assert_equal(file,'Ben')
+        elsif index ==1 
+          assert_equal(file,'Claire')
+        end
+      end
+      index += 1
+    end
+    
+    db.clear
+  end
   
 end
