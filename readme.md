@@ -6,3 +6,11 @@ It will allow :
 - compute the score for each player in the system
 - save and load from disk
 - erase all data
+
+To install :
+  gem install KeeperChallenge
+  
+To use : 
+  KeeperChallenge
+  
+The application is console based for now.
