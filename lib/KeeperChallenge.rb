@@ -97,6 +97,15 @@ class Display
     end
   end
   
+  def confirm_delete
+    puts "Are you sure you want to erase all data? (type YES)"
+    return @input.get_input
+  end
+
+  def abort
+    puts "Abort"
+  end
+  
 end
 
 
@@ -135,8 +144,13 @@ class Main
           score.compute(@activities_type)
           screen.display_scores(@players)
         when :clean_database then
-          db.clear
-          @players.clear
+          response = screen.confirm_delete
+          if response == "YES"    
+            db.clear
+            @players.clear
+          else 
+            screen.abort
+          end
           
       end
       db.save(@players)
