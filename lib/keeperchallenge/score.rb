@@ -19,7 +19,7 @@ class Score
         total_cal[player.name] =0
         total_km[player.name] =0   
         
-        player.list_by_type(activity).each do |player_activity|
+        player.activites_taken(activity).each do |player_activity|
           total_time[player.name]  += player_activity.time.to_i
           total_cal[player.name]  += player_activity.cal.to_i
           total_km[player.name]  += player_activity.km.to_i

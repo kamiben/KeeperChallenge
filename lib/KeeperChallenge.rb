@@ -108,7 +108,7 @@ class Main
     # load activities
     @players = {}
     @activities_type = ["velo", "course" , "marche",  "natation"]
-   setup_test_users
+    #setup_test_users
 
   end
   def launch
