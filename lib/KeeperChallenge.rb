@@ -5,14 +5,15 @@ require File.dirname(__FILE__) +'/keeperchallenge/database'
 
 # will handle user input - will to quit the program, input from the console
 class UserInput
-  attr_accessor :exit
+  attr_accessor :exit, :input
   def initialize
     exit = false
+    self.input  = $stdin
   end
   
   def get_input
     print '> '
-    result = gets.chomp()
+    result = input.gets.chomp()
     return result
   end
   
@@ -45,6 +46,7 @@ class Display
     end
   end
 
+  #will return an index to use in the [@players]
   def select_player(players)
     puts "Please select your player"
     i=1
@@ -60,12 +62,14 @@ class Display
     end
   end
   
+  # Will return the new player name
   def add_player
     puts "Enter the new player name :"
     name = @input.get_input
     return name
   end
   
+  # will return the components of a new activity
   def add_activity(activities_type)
     
     puts "Enter activity type"
@@ -85,6 +89,7 @@ class Display
     return type, time, cal, km
   end
   
+  # Will print the scores
   def display_scores(players)
     puts "Scores :"
     players.each do |player|
@@ -125,7 +130,6 @@ class Main
           name = screen.add_player
           new_player = Player.new(name)
           @players.push(new_player)
-          #add player
         when :launch_scoreboard then 
           score = Score.new(@players)
           score.compute(@activities_type)
