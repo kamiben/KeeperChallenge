@@ -1,3 +1,63 @@
+DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/keeperchallenge.db")
+
+class User
+  include DataMapper::Resource
+  
+  has n, :activities
+  has n, :challenges
+  
+  property :id, Serial
+  property :name, Text, :required => true
+  property :score , Integer, :default => 0
+  property :created_at, DateTime
+  
+  
+  # Will count all sports the player practised.
+  def count_activity_type
+    total_activities_type = 0
+    previous_activity = ''
+    
+    @activities.each do |activity|
+      if activity != previous_activity
+        activity = previous_activity
+        total_activities_type += 1
+      end
+    end
+    return total_activities_type
+  end
+  
+end
+
+class Activity
+  include DataMapper::Resource
+  
+  belongs_to :user
+  
+  property :id, Serial
+  property :type, Text
+  property :time, Integer
+  property :cal, Integer
+  property :km, Integer
+  property :created_at, DateTime
+  property :updated_at, DateTime
+end
+
+class Challenge
+  include DataMapper::Resource
+  
+  belongs_to :user
+  has n, :users
+  
+  property :id, Serial
+  property :name, Text
+  property :started_at, DateTime
+  property :ended_at, DateTime
+
+end
+
+DataMapper.finalize.auto_upgrade!
+
+
 class FileDatabase
   attr_reader :folder_path
   # will create the db folder if not present on system
@@ -58,3 +118,4 @@ class FileDatabase
   end
 
 end
+

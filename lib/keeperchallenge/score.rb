@@ -14,12 +14,12 @@ class Score
       total_time = {}
       total_cal = {}
       total_km = {}
-      @players.each do |key,player|
+      @players.each do |player|
         total_time[player.name] =0
         total_cal[player.name] =0
         total_km[player.name] =0   
         
-        player.activities_taken(activity).each do |player_activity|
+        player.activities.all(:type => activity).each do |player_activity|
           total_time[player.name]  += player_activity.time.to_i
           total_cal[player.name]  += player_activity.cal.to_i
           total_km[player.name]  += player_activity.km.to_i
@@ -27,17 +27,17 @@ class Score
       end
       
       #détermine le meilleur de chaque discipline
-      @players.each do |key,player|
+      @players.each do |player|
         if player.name == find_best_score(total_time)
-          puts "Best total time in #{activity} for #{player.name}, adding 3 points"
+          #puts "Best total time in #{activity} for #{player.name}, adding 3 points"
           player.score += 3
         end
         if player.name == find_best_score(total_cal)
-          puts "Best total cal in #{activity} for #{player.name}, adding 3 points"
+          #puts "Best total cal in #{activity} for #{player.name}, adding 3 points"
           player.score += 3
         end
         if player.name == find_best_score(total_km)
-          puts "Best total km in #{activity} for #{player.name}, adding 3 points"
+          #puts "Best total km in #{activity} for #{player.name}, adding 3 points"
           player.score += 3
         end        
 

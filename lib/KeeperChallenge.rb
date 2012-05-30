@@ -1,9 +1,13 @@
+require 'sinatra'
+require 'dm-core'
+require 'dm-migrations'
+
 require File.dirname(__FILE__) +'/keeperchallenge/player'
 require File.dirname(__FILE__) +'/keeperchallenge/score'
-require File.dirname(__FILE__) +'/keeperchallenge/activity'
+#require File.dirname(__FILE__) +'/keeperchallenge/activity'
 require File.dirname(__FILE__) +'/keeperchallenge/database'
 
-require 'sinatra'
+
 
 # will handle user input - will to quit the program, input from the console
 class UserInput
@@ -184,13 +188,19 @@ module KeeperChallenge
   end
 
   post '/add-activity' do 
-    db = FileDatabase.new()
-    @players = {}
-    @activities_type = ["velo", "course" , "marche",  "natation"]
-    db.load(@players)
-    @players[params[:name]].add_activity(params[:type],params[:time],params[:cal],params[:km])
-    db.save(@players)
-    message = "Activity successfully added"
+
+    # we need to add an activity
+    new_activity = Activity.new(
+      :type => params[:type],
+      :time => params[:time],
+      :cal => params[:cal],
+      :km => params[:km],
+      :created_at => Time.now,
+      :updated_at => Time.now
+      )
+    new_activity.user = User.get(:name => params[:name])
+    new_activity.save
+    message = "Activity successfully added, #{}"
     erb :index,:locals => {:message => message}
   end
 
@@ -199,25 +209,22 @@ module KeeperChallenge
   end
   
   post '/add-player' do
-    db = FileDatabase.new()
-    @players = {}
-    db.load(@players)
-    name = params[:name]
-    new_player = Player.new(name)
-    @players.update(name => new_player)
-    db.save(@players)
-    message = "Player successfully added"
+
+    new_user = User.new
+    new_user.name = params[:name]
+    new_user.created_at =   Time.now
+    new_user.save
+    message = "Player successfully added, ID :#{new_user.id} Name : #{new_user.name} Creation date : #{new_user.created_at}."
+    #puts User.get(:id => 1).name
     erb :index,:locals => {:message => message}
   end
 
   get '/scoreboard' do
-    db = FileDatabase.new()
-    @players = {}
     @activities_type = ["velo", "course" , "marche",  "natation"]
-    db.load(@players)
+    @players = User.all
     score = Score.new(@players)
     score.compute(@activities_type)
-    erb :display_scores
+    erb :display_scores, :locals => {:players => @players}
   end
 
   get '/cleardb' do 
