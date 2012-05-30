@@ -1,0 +1,20 @@
+<h1>Here are the scores</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Player Name</th>
+      <th>Player Score</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @players.each do |key,player|%>
+      <tr>
+        <td><%=player.name%></td>
+        <td><%=player.score%></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>

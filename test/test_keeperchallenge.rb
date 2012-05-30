@@ -68,7 +68,6 @@ class MyUnitTest < Test::Unit::TestCase
     player.add_activity("Velo", 1, 1, 1)
     
     assert_equal(player.count_activity_type,1)
-    
   end
 
   def test_score

@@ -3,6 +3,8 @@ require File.dirname(__FILE__) +'/keeperchallenge/score'
 require File.dirname(__FILE__) +'/keeperchallenge/activity'
 require File.dirname(__FILE__) +'/keeperchallenge/database'
 
+require 'sinatra'
+
 # will handle user input - will to quit the program, input from the console
 class UserInput
   attr_accessor :exit, :input
@@ -169,4 +171,57 @@ class Main
   end
 
   
+end
+
+module KeeperChallenge
+
+  get '/' do
+    erb :index,:locals => {:message => ''}
+  end
+
+  get '/add-activity' do 
+    erb :addactivity_form
+  end
+
+  post '/add-activity' do 
+    db = FileDatabase.new()
+    @players = {}
+    @activities_type = ["velo", "course" , "marche",  "natation"]
+    db.load(@players)
+    @players[params[:name]].add_activity(params[:type],params[:time],params[:cal],params[:km])
+    db.save(@players)
+    message = "Activity successfully added"
+    erb :index,:locals => {:message => message}
+  end
+
+  get '/add-player' do 
+    erb :addplayer_form
+  end
+  
+  post '/add-player' do
+    db = FileDatabase.new()
+    @players = {}
+    db.load(@players)
+    name = params[:name]
+    new_player = Player.new(name)
+    @players.update(name => new_player)
+    db.save(@players)
+    message = "Player successfully added"
+    erb :index,:locals => {:message => message}
+  end
+
+  get '/scoreboard' do
+    db = FileDatabase.new()
+    @players = {}
+    @activities_type = ["velo", "course" , "marche",  "natation"]
+    db.load(@players)
+    score = Score.new(@players)
+    score.compute(@activities_type)
+    erb :display_scores
+  end
+
+  get '/cleardb' do 
+
+  end
+
 end
