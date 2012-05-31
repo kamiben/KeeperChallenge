@@ -2,167 +2,12 @@ require 'sinatra'
 require 'dm-core'
 require 'dm-migrations'
 
-require File.dirname(__FILE__) +'/keeperchallenge/player'
 require File.dirname(__FILE__) +'/keeperchallenge/score'
-#require File.dirname(__FILE__) +'/keeperchallenge/activity'
 require File.dirname(__FILE__) +'/keeperchallenge/database'
-
-
-
-# will handle user input - will to quit the program, input from the console
-class UserInput
-  attr_accessor :exit, :input
-  def initialize
-    exit = false
-    self.input  = $stdin
-  end
-  
-  def get_input
-    print '> '
-    result = input.gets.chomp()
-    return result
-  end
-  
-end
-
-#will handle display to the screen , main menu, sub menus ...
-class Display
-  def initialize(input)
-    @input = input
-  end
-  #Hello
-  def hello
-    puts "Welcome to KeeperChallenge!\n"
-  end
-  #menu
-  def menu
-    puts "Please select your action"
-    puts "1. Add activity"
-    puts "2. Add player"
-    puts "3. Display scoreboard"
-    puts "4. Clear player database"
-    puts "5. Exit"
-    choice = @input.get_input
-    case choice.to_i
-      when 1 then return :add_activity
-      when 2 then return :add_player
-      when 3 then return :launch_scoreboard
-      when 4 then return :clean_database
-      when 5 then @input.exit = true
-    end
-  end
-
-  #will return an index to use in the [@players]
-  def select_player(players)
-    puts "Please select your player"
-    i=1
-    if !players.empty?
-      players.each do |key,player|
-        puts "#{player.name}"
-      end
-      choice = @input.get_input
-      return choice
-    else
-      puts "There are no players in the database"
-      return nil
-    end
-  end
-  
-  # Will return the new player name
-  def add_player
-    puts "Enter the new player name :"
-    name = @input.get_input
-    return name
-  end
-  
-  # will return the components of a new activity
-  def add_activity(activities_type)
-    
-    puts "Enter activity type"
-    puts "possible activities : "
-    puts activities_type
-    type = @input.get_input
-    while !activities_type.include?(type)
-      puts "activity invalid"
-      type = @input.get_input
-    end
-    puts "Enter time"
-    time =  @input.get_input
-    puts "Enter cal"
-    cal =  @input.get_input
-    puts "Enter Km"
-    km = @input.get_input
-    return type, time, cal, km
-  end
-  
-  # Will print the scores
-  def display_scores(players)
-    puts "Scores :"
-    players.each do |key,player|
-      puts "#{player.name} : #{player.score}"
-    end
-  end
-  
-  def confirm_delete
-    puts "Are you sure you want to erase all data? (type YES)"
-    return @input.get_input
-  end
-
-  def abort
-    puts "Abort"
-  end
-  
-end
 
 
 # Main program
 class Main
-
-  def initialize
-    # load players
-    # load activities
-    @players = {}
-    @activities_type = ["velo", "course" , "marche",  "natation"]
-    #setup_test_users
-
-  end
-  def launch
-    input = UserInput.new()
-    screen = Display.new(input)
-    db = FileDatabase.new()
-    db.load(@players)
-    screen.hello
-    while !input.exit
-      action = screen.menu
-      case action 
-        when :add_activity then 
-          player = screen.select_player(@players)
-          if !player.nil?
-            type, time, cal, km = screen.add_activity(@activities_type)
-            @players[player].add_activity(type, time, cal, km)
-          end
-        when :add_player then 
-          name = screen.add_player
-          new_player = Player.new(name)
-          @players.update(name => new_player)
-        when :launch_scoreboard then 
-          score = Score.new(@players)
-          score.compute(@activities_type)
-          screen.display_scores(@players)
-        when :clean_database then
-          response = screen.confirm_delete
-          if response == "YES"    
-            db.clear
-            @players.clear
-          else 
-            screen.abort
-          end
-          
-      end
-      db.save(@players)
-    end
-  end
-  
   def setup_test_users
     @players.update({"Ben" => Player.new("Ben")})
     @players.update({"Claire" => Player.new("Claire")})
@@ -172,12 +17,10 @@ class Main
     @players["Claire"].add_activity("course", 20, 20, 20)
     @players["Claire"].add_activity("velo", 12, 12, 12)
     @players["Claire"].add_activity("natation", 30, 20, 10)
-  end
-
-  
+  end  
 end
 
-module KeeperChallenge
+
 
   get '/' do
     erb :index,:locals => {:message => ''}
@@ -190,17 +33,17 @@ module KeeperChallenge
   post '/add-activity' do 
 
     # we need to add an activity
-    new_activity = Activity.new(
-      :type => params[:type],
-      :time => params[:time],
-      :cal => params[:cal],
-      :km => params[:km],
-      :created_at => Time.now,
-      :updated_at => Time.now
-      )
-    new_activity.user = User.get(:name => params[:name])
+    player = Player.get!(params[:name])
+    new_activity = player.activities.new
+    new_activity.activitytype = params[:activitytype]
+    new_activity.time = params[:time]
+    new_activity.cal = params[:cal]
+    new_activity.km = params[:km]
+    new_activity.created_at = Time.now
+    new_activity.updated_at = Time.now
+    
     new_activity.save
-    message = "Activity successfully added, #{}"
+    message = "Activity successfully added, ID #{new_activity.id} Player #{new_activity.player.name} Type #{new_activity.activitytype} Time : #{new_activity.time}"
     erb :index,:locals => {:message => message}
   end
 
@@ -210,18 +53,26 @@ module KeeperChallenge
   
   post '/add-player' do
 
-    new_user = User.new
+    new_user = Player.new
     new_user.name = params[:name]
-    new_user.created_at =   Time.now
+    new_user.created_at = Time.now
     new_user.save
-    message = "Player successfully added, ID :#{new_user.id} Name : #{new_user.name} Creation date : #{new_user.created_at}."
+    message = "Player successfully added, Name : #{new_user.name} Creation date : #{new_user.created_at}."
     #puts User.get(:id => 1).name
     erb :index,:locals => {:message => message}
   end
 
+  get '/player/:id' do
+    @player = Player.get(params[:id])
+    @player.score += 100
+    @player.save
+    erb :edit_player
+
+  end
+
   get '/scoreboard' do
     @activities_type = ["velo", "course" , "marche",  "natation"]
-    @players = User.all
+    @players = Player.all
     score = Score.new(@players)
     score.compute(@activities_type)
     erb :display_scores, :locals => {:players => @players}
@@ -231,4 +82,3 @@ module KeeperChallenge
 
   end
 
-end
