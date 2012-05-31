@@ -1,11 +1,36 @@
 <h1>Please enter activity details</h1>
 
 <form class="well span4" action="/add-activity" method="POST">
-  <label>Select player </label>
-  <input type="text" class="span3" placeholder="Type the player name" name="name">
-  <br/>
-  <label>Select activity </label>
-  <input type="text" class="span3" placeholder="Type the activity" name="activitytype">
+<fieldset>
+  <div class="control-group">
+    <label class="control-label" for="name">Select Player</label>
+    <div class="controls">
+      <select id="name" name="name">
+                <% @players.each do |player| %>
+                  <option value = "<%= player.name %>">
+                  <%= player.name %>
+                  </option>
+                <% end %>
+      </select>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset>
+  <div class="control-group">
+    <label class="control-label" for="activitytype">Select Activity</label>
+    <div class="controls">
+      <select id="activitytype" name="activitytype">
+                <% @activities_type.each do |activity| %>
+                  <option value = "<%= activity %>">
+                  <%= activity %>
+                  </option>
+                <% end %>
+      </select>
+    </div>
+  </div>
+</fieldset>
+
     <label>Enter duration </label>
   <input type="text" class="span3" placeholder="Type the duration" name="time">
     <label>Enter calories </label>

@@ -27,6 +27,8 @@ end
   end
 
   get '/add-activity' do 
+    @activities_type = ["velo", "course" , "marche",  "natation"]
+    @players = Player.all
     erb :addactivity_form
   end
 
