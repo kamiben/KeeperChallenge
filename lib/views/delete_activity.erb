@@ -1,0 +1,10 @@
+<% if @activity %>
+  <p>Are you sure you want to delete the following activity: <em>"Id :<%= @activity.id %>,Type : <%= @activity.activitytype %>,Time :<%= @activity.time %>,Distance: <%= @activity.km %>,Calories: <%= @activity.cal %>"</em>?</p>
+  <form action="/activity/<%= @activity.id %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Yes, Delete It!">
+    <a href="/activity/<%= @activity.id %>">Cancel</a>
+  </form>
+<% else %>
+  <p>Note not found.</p>
+<% end %>

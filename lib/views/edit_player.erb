@@ -17,3 +17,29 @@
 
   </tbody>
 </table>
+
+<h1> Your activities </h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Activity Type</th>
+      <th>Duration</th>
+      <th>Distance</th>
+      <th>Calories</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%=activity.activitytype%></td>
+        <td><%=activity.time%></td>
+        <td><%=activity.km%></td>
+        <td><%=activity.cal%></td>
+        <td><a href="/activity/<%=activity.id%>">Edit</a> | <a href="/activity/<%=activity.id%>/delete">Delete</a></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>

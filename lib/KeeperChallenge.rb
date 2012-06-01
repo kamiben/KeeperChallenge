@@ -66,12 +66,50 @@ end
 
   get '/player/:id' do
     @player = Player.get(params[:id])
-    @player.score += 100
-    @player.save
+    @activities = @player.activities.all
     erb :edit_player
 
   end
+  
+  get '/player' do
+    @player = Player.all
+    erb :show_players
 
+  end
+  
+  get '/activity/:id' do
+    @activities_type = ["velo", "course" , "marche",  "natation"]
+    @activity = Activity.get(params[:id])
+    erb :edit_activity
+  end
+  
+  post '/activity/:id' do 
+
+    # we need to edit an activity
+    
+    edit_activity = Activity.get(params[:id])
+    edit_activity.activitytype = params[:activitytype]
+    edit_activity.time = params[:time]
+    edit_activity.cal = params[:cal]
+    edit_activity.km = params[:km]
+    edit_activity.updated_at = Time.now 
+    edit_activity.save
+    message = "Activity successfully edited, ID #{edit_activity.id} Player #{edit_activity.player.name} Type #{edit_activity.activitytype} Time : #{edit_activity.time}"
+    erb :index,:locals => {:message => message}
+  end
+  
+  get '/activity/:id/delete' do
+    @activity = Activity.get(params[:id])
+    erb :delete_activity
+  end
+  
+  delete '/activity/:id' do
+    a = Activity.get params[:id]
+    a.destroy
+    redirect '/'
+  end
+  
+  
   get '/scoreboard' do
     @activities_type = ["velo", "course" , "marche",  "natation"]
     @players = Player.all
@@ -80,7 +118,4 @@ end
     erb :display_scores, :locals => {:players => @players}
   end
 
-  get '/cleardb' do 
-
-  end
 
