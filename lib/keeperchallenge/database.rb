@@ -1,4 +1,7 @@
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/keeperchallenge.db")
+if development? 
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/keeperchallenge.db")
+end
+
 
 class Player
   include DataMapper::Resource

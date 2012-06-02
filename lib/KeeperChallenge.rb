@@ -4,7 +4,7 @@ require 'dm-migrations'
 
 require File.dirname(__FILE__) +'/keeperchallenge/score'
 require File.dirname(__FILE__) +'/keeperchallenge/database'
-
+require File.dirname(__FILE__) +'/keeperchallenge/dbsetting'
 
 # Main program
 class Main
