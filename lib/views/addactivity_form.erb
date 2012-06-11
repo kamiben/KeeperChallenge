@@ -22,8 +22,8 @@
     <div class="controls">
       <select id="activitytype" name="activitytype">
                 <% @activities_type.each do |activity| %>
-                  <option value = "<%= activity %>">
-                  <%= activity %>
+                  <option value = "<%= activity.name %>">
+                  <%= activity.name %>
                   </option>
                 <% end %>
       </select>

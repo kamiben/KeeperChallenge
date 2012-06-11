@@ -1,0 +1,11 @@
+<% if @player %>
+  <p>Are you sure you want to delete the following player: <em>"Name : <%= @player.name %>"</em>?<br/>
+  WARNING : All activities made by this player will be deleted.</p>
+  <form action="/player/<%= @player.name %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Yes, Delete It!">
+    <a href="/player/<%= @player.name %>">Cancel</a>
+  </form>
+<% else %>
+  <p>Player not found.</p>
+<% end %>

@@ -27,7 +27,8 @@ end
   end
 
   get '/add-activity' do 
-    @activities_type = ["velo", "course" , "marche",  "natation"]
+    @activities_type = Activitytype.all
+    p Activitytype.all
     @players = Player.all
     erb :addactivity_form
   end
@@ -77,6 +78,18 @@ end
 
   end
   
+  get '/player/:id/delete' do
+    @player = Player.get(params[:id])
+    erb :delete_player
+  end
+  
+  delete '/player/:id' do
+    a = Player.get params[:id]
+    a.activities.all.destroy
+    a.destroy
+    redirect '/'
+  end
+  
   get '/activity/:id' do
     @activities_type = ["velo", "course" , "marche",  "natation"]
     @activity = Activity.get(params[:id])
@@ -118,4 +131,15 @@ end
     erb :display_scores, :locals => {:players => @players}
   end
 
+  get '/add-activitytype' do 
+    erb :addactivitytype_form
+  end
+  
+  post '/add-activitytype' do
 
+    new_activitytype = Activitytype.new
+    new_activitytype.name = params[:name]
+    new_activitytype.save
+    message = "Activity successfully added, Name : #{new_activitytype.name}. #{new_activitytype.id}"
+    erb :index,:locals => {:message => message}
+  end

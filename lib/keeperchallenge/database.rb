@@ -2,6 +2,7 @@ if development?
   DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/keeperchallenge.db")
 end
 
+DataMapper::Logger.new(STDOUT, :debug)
 
 class Player
   include DataMapper::Resource
@@ -9,7 +10,7 @@ class Player
   #
   #has n, :challenges
   
-  property :name, Text, :key => true, :unique_index => true
+  property :name, Text, :key => true, :index => true, :unique_index => true, :length => 10
   property :score , Integer, :default => 0
   property :created_at, DateTime
   
@@ -35,7 +36,6 @@ class Activity
   include DataMapper::Resource
 
   property :id, Serial
-  property :activitytype, Text
   property :time, Integer
   property :cal, Integer
   property :km, Integer
@@ -43,8 +43,18 @@ class Activity
   property :updated_at, DateTime
   
   belongs_to :player
+  has 1, :activitytype
 
 end
+
+class Activitytype
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, Text
+
+end
+
 
 class Challenge
   include DataMapper::Resource
