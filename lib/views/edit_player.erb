@@ -33,7 +33,7 @@
   <tbody>
     <% @activities.each do |activity| %>
       <tr>
-        <td><%=activity.activitytype%></td>
+        <td><%=activity.activitytype.name%></td>
         <td><%=activity.time%></td>
         <td><%=activity.km%></td>
         <td><%=activity.cal%></td>

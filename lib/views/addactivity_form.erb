@@ -22,7 +22,7 @@
     <div class="controls">
       <select id="activitytype" name="activitytype">
                 <% @activities_type.each do |activity| %>
-                  <option value = "<%= activity.name %>">
+                  <option value = "<%= activity.id %>">
                   <%= activity.name %>
                   </option>
                 <% end %>
@@ -31,12 +31,12 @@
   </div>
 </fieldset>
 
-    <label>Enter duration </label>
-  <input type="text" class="span3" placeholder="Type the duration" name="time">
-    <label>Enter calories </label>
-  <input type="text" class="span3" placeholder="Type the calories" name="cal">
-    <label>Enter distance </label>
-  <input type="text" class="span3" placeholder="Type the distance" name="km">
+    <label>Enter duration (unit : minutes)</label>
+  <input type="text" class="span3" placeholder="Type the duration (mn)" name="time">
+    <label>Enter calories (unit : cal) </label>
+  <input type="text" class="span3" placeholder="Type the calories (cal)" name="cal">
+    <label>Enter distance (unit : km)</label>
+  <input type="text" class="span3" placeholder="Type the distance (km)" name="km">
   <br/>
   <input type="submit" class="btn">
 </form>

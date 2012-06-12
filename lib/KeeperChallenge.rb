@@ -28,7 +28,6 @@ end
 
   get '/add-activity' do 
     @activities_type = Activitytype.all
-    p Activitytype.all
     @players = Player.all
     erb :addactivity_form
   end
@@ -37,8 +36,9 @@ end
 
     # we need to add an activity
     player = Player.get!(params[:name])
+    activititype = Activitytype.get!(params[:activitytype])
     new_activity = player.activities.new
-    new_activity.activitytype = params[:activitytype]
+    new_activity.activitytype = activititype
     new_activity.time = params[:time]
     new_activity.cal = params[:cal]
     new_activity.km = params[:km]
@@ -91,7 +91,7 @@ end
   end
   
   get '/activity/:id' do
-    @activities_type = ["velo", "course" , "marche",  "natation"]
+    @activities_type = Activitytype.all
     @activity = Activity.get(params[:id])
     erb :edit_activity
   end
@@ -99,9 +99,9 @@ end
   post '/activity/:id' do 
 
     # we need to edit an activity
-    
+    activititype = Activitytype.get!(params[:activitytype])
     edit_activity = Activity.get(params[:id])
-    edit_activity.activitytype = params[:activitytype]
+    edit_activity.activitytype = activititype
     edit_activity.time = params[:time]
     edit_activity.cal = params[:cal]
     edit_activity.km = params[:km]
@@ -124,7 +124,7 @@ end
   
   
   get '/scoreboard' do
-    @activities_type = ["velo", "course" , "marche",  "natation"]
+    @activities_type = Activitytype.all
     @players = Player.all
     score = Score.new(@players)
     score.compute(@activities_type)
@@ -137,9 +137,7 @@ end
   
   post '/add-activitytype' do
 
-    new_activitytype = Activitytype.new
-    new_activitytype.name = params[:name]
-    new_activitytype.save
+    new_activitytype = Activitytype.create(:name =>params[:name] )
     message = "Activity successfully added, Name : #{new_activitytype.name}. #{new_activitytype.id}"
     erb :index,:locals => {:message => message}
   end

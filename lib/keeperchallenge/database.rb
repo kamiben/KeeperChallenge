@@ -38,12 +38,12 @@ class Activity
   property :id, Serial
   property :time, Integer
   property :cal, Integer
-  property :km, Integer
+  property :km, Float
   property :created_at, DateTime
   property :updated_at, DateTime
   
   belongs_to :player
-  has 1, :activitytype
+  belongs_to :activitytype
 
 end
 
@@ -53,6 +53,7 @@ class Activitytype
   property :id, Serial
   property :name, Text
 
+  has n, :activities
 end
 
 
