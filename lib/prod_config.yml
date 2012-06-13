@@ -1,0 +1,13 @@
+    environment: production
+    chdir: /var/www/challenki/lib/
+    address: 127.0.0.1
+    user: git
+    group: git
+    port: 4567
+    pid: /var/www/challenki/tmp/thin.pid
+    rackup: /var/www/challenki/lib/config.ru
+    log: /var/www/challenki/tmp/thin.log
+    max_conns: 1024
+    timeout: 30
+    max_persistent_conns: 512
+    daemonize: true
