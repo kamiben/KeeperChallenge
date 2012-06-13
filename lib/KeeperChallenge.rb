@@ -67,6 +67,11 @@ end
   end
 
   get '/player/:id' do
+    @activities_type = Activitytype.all
+    @players = Player.all
+    score = Score.new(@players)
+    score.compute(@activities_type)
+    
     @player = Player.get(params[:id])
     @activities = @player.activities.all
     erb :edit_player
