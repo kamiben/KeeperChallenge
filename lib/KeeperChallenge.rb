@@ -115,8 +115,10 @@ end
     edit_activity.cal = params[:cal]
     edit_activity.km = params[:km]
     edit_activity.updated_at = Time.now 
+    made_at = Date::strptime(params[:made_at], '%Y-%m-%d')
+    edit_activity.made_at = made_at
     edit_activity.save
-    message = "Activity successfully edited, ID #{edit_activity.id} Player #{edit_activity.player.name} Type #{edit_activity.activitytype} Time : #{edit_activity.time}"
+    message = "Activity successfully edited, ID #{edit_activity.id} Player #{edit_activity.player.name} Type #{edit_activity.activitytype} Time : #{edit_activity.time} Date : #{edit_activity.made_at}"
     erb :index,:locals => {:message => message}
   end
   

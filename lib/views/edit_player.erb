@@ -27,6 +27,7 @@
       <th>Duration</th>
       <th>Distance</th>
       <th>Calories</th>
+      <th>Date</th>
       <th></th>
     </tr>
   </thead>
@@ -37,6 +38,7 @@
         <td><%=activity.time%></td>
         <td><%=activity.km%></td>
         <td><%=activity.cal%></td>
+        <td><%=activity.made_at%></td>
         <td><a href="/activity/<%=activity.id%>">Edit</a> | <a href="/activity/<%=activity.id%>/delete">Delete</a></td>
       </tr>
     <% end %>
