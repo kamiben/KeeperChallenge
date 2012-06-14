@@ -1,16 +1,9 @@
-KeeperChallenge is a small ruby application to manage a contest between friends.
+KeeperChallenge is a small sinatra application to manage a sport contest between friends.
 
-It will allow :
+It allows :
 - adding a player
 - adding an activity for a player
+- adding a type of activity
 - compute the score for each player in the system
-- save and load from disk
-- erase all data
-
-To install :
-  gem install KeeperChallenge
-  
-To use : 
-  KeeperChallenge
-  
-The application is console based for now.
+- edit and delete a player, activity
+- display a scoreboard
