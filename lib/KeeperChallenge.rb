@@ -1,3 +1,4 @@
+require 'date'
 require 'sinatra'
 require 'dm-core'
 require 'dm-migrations'
@@ -45,9 +46,11 @@ end
     new_activity.km = params[:km]
     new_activity.created_at = Time.now
     new_activity.updated_at = Time.now
-    
+    made_at = Date::strptime(params[:made_at] + "/2012", '%d/%m/%Y')
+    puts made_at
+    new_activity.made_at = made_at
     new_activity.save
-    message = "Activity successfully added, ID #{new_activity.id} Player #{new_activity.player.name} Type #{new_activity.activitytype} Time : #{new_activity.time}"
+    message = "Activity successfully added, ID #{new_activity.id} Player #{new_activity.player.name} Type #{new_activity.activitytype} Time : #{new_activity.time} Date : #{new_activity.made_at}"
     erb :index,:locals => {:message => message}
   end
 

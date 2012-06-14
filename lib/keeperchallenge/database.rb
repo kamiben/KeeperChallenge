@@ -39,6 +39,7 @@ class Activity
   property :time, Integer
   property :cal, Integer
   property :km, Float
+  property :made_at, Date
   property :created_at, DateTime
   property :updated_at, DateTime
   
